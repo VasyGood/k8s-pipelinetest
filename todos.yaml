@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
       - name: todos-app
-        image: todos:latest
-        imagePullPolicy: Never
+        image: ghcr.io/vasygood/todos:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 3000
         env:

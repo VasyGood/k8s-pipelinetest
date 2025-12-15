@@ -1,6 +1,6 @@
 use axum::{Json, extract::{Path, State}, http::StatusCode};
 use futures::TryStreamExt;
-use mongodb::{Collection, bson::{doc, oid::ObjectId}};
+use mongodb::{Collection, bson::{doc, oid::ObjectId}, options::{FindOneAndUpdateOptions, ReturnDocument}};
 use validator::Validate;
 
 use crate::{error::AppError, models::{CreateTodoRequest, Todo, TodoResponse, UpdateTodoRequest}};
@@ -89,7 +89,11 @@ pub async fn update_todo(
 
     let update = doc! { "$set": update_doc };
 
-    match collection.find_one_and_update(filter, update).await? {
+    let options = FindOneAndUpdateOptions::builder()
+        .return_document(ReturnDocument::After)
+        .build();
+
+    match collection.find_one_and_update(filter, update).with_options(options).await? {
         Some(updated_todo) => Ok(Json(TodoResponse::from(updated_todo))),
         None => Err(AppError::NotFound(format!("Todo with id {} not found", id))),
     }
