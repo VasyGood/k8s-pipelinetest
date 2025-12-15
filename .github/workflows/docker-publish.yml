@@ -34,5 +34,5 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ env.REGISTRY }}/VasyGood/${{ env.IMAGE_NAME }}:latest
-            ${{ env.REGISTRY }}/VasyGood/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            ${{ env.REGISTRY }}/vasygood/${{ env.IMAGE_NAME }}:latest
+            ${{ env.REGISTRY }}/vasygood/${{ env.IMAGE_NAME }}:${{ github.sha }}
